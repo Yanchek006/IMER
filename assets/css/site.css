@@ -933,3 +933,15 @@ html:not(.seen){--d0:.55s}
 
 /* RentRide: обложка показывается целиком, анимация как у остальных кейсов */
 #c-07 .zoom.wide img{aspect-ratio:auto;height:auto;object-fit:contain}
+/* тизер обучения: карточки стоят лесенкой и не перекрывают друг друга на любой ширине */
+.learn-vis{aspect-ratio:auto;min-height:clamp(340px,42vw,620px);display:flex;flex-direction:column;justify-content:center;gap:clamp(16px,2.4vw,32px)}
+.learn-vis .orb{inset:0;margin:auto}
+.learn-vis .lv-card{align-self:flex-start;width:min(78%,340px)}
+.learn-vis .lv-2{position:relative;right:auto;bottom:auto;align-self:flex-end;width:min(70%,300px)}
+/* кейс 01: на телефоне слайдеры до/после во всю ширину, по одному */
+@container site (max-width:640px){
+  #c-01 .ba-grid{grid-template-columns:1fr;gap:20px}
+  #c-01 .ba2 .lbl{font-size:11px;padding:6px 10px;top:12px}#c-01 .ba2 .lbl.l{left:12px}#c-01 .ba2 .lbl.r{right:12px}
+  #c-01 .ba2 .handle::after{width:40px;height:40px;font-size:15px}
+  #c-01 .ba-item .mono{font-size:12px}
+}
