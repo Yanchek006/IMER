@@ -1,0 +1,21 @@
+# В репозиторий попадают только сайт и код бота.
+# Документы, исходники и Instagram остаются только у вас на компьютере.
+/*
+!/site/
+!/bot/
+!/.github/
+!/.gitignore
+!/README.md
+!/opublikovat.bat
+
+# Секреты и данные клиентов бота — никогда в GitHub
+bot/.env
+bot/data/
+bot/bot.log*
+bot/.venv/
+
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+desktop.ini

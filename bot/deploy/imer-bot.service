@@ -1,0 +1,18 @@
+[Unit]
+Description=IMER Telegram bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=/opt/imer/bot
+ExecStart=/opt/imer/bot/.venv/bin/python bot.py
+Restart=always
+RestartSec=5
+# отдельный пользователь без прав: sudo useradd -r -s /usr/sbin/nologin imerbot && sudo chown -R imerbot /opt/imer
+User=imerbot
+NoNewPrivileges=true
+ProtectSystem=full
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
