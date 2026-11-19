@@ -1,6 +1,6 @@
 /* Куда отправлять заявки из брифа: вставьте ссылку веб-приложения Google Apps Script */
-const LEADS_URL = 'https://script.google.com/macros/s/AKfycbzhDZ3fH34UJk2-zI_nERXBorRVKLGdHIR5eQaeoWoHe7PpcZwGgZ7QhhPyoRKaFqQ6/exec';
-
+const LEADS_URL = 'https://script.google.com/macros/s/AKfycbwe8pM6yYGziMoyXRSFxxYlsCNxvEnRHUOZkQxMs_quilj-NX63dvwrE31ynjlatocO/exec';
+                   
 /* Отправка заявки: обрезаем длину полей, ловим ботов (скрытое поле и слишком быстрое
    заполнение), не даём отправить чаще раза в минуту с одного браузера.
    Главная защита всё равно на стороне таблицы (docs/zayavki-podklyuchenie.md). */

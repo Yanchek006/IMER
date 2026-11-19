@@ -3,8 +3,8 @@ chcp 65001 >nul
 cd /d "%~dp0"
 setlocal
 
-rem Публикует сайт и код бота в https://github.com/Yanchek006/IMER
-rem Через минуту после публикации сайт обновится на https://yanchek006.github.io/IMER/
+rem Публикует код в https://github.com/Yanchek006/IMER (ветка main),
+rem а сам сайт — в ветку gh-pages, откуда его показывает https://yanchek006.github.io/IMER/
 rem Секреты (bot\.env), данные клиентов бота, документы и исходники НЕ отправляются: см. .gitignore
 
 set "REPO=https://github.com/Yanchek006/IMER.git"
@@ -23,13 +23,17 @@ if not exist .git (
   git remote add origin %REPO%
 )
 git branch -M main
-
+git config core.autocrlf true
 git config user.name >nul 2>&1 || git config user.name "Yanchek006"
 git config user.email >nul 2>&1 || git config user.email "Yanchek006@users.noreply.github.com"
 
-rem Настройка автопубликации сайта на GitHub Pages (папку .github создаём отсюда)
-if not exist .github\workflows mkdir .github\workflows
-copy /y github-pages.yml .github\workflows\pages.yml >nul
+rem Папку .github не отправляем: для неё GitHub требует особых прав
+if exist .github rmdir /s /q .github
+
+echo Сверяюсь с GitHub...
+git fetch -q origin
+rem Собираем все неотправленные изменения в одну публикацию поверх того, что уже на GitHub
+git rev-parse -q --verify origin/main >nul && git reset -q --soft origin/main
 
 git add -A
 
@@ -44,25 +48,25 @@ if not errorlevel 1 (
 )
 
 git diff --cached --quiet
-if errorlevel 1 (
-  git commit -q -m "Обновление сайта %date% %time:~0,5%"
-) else (
-  echo Новых изменений нет, проверяю, всё ли уже отправлено...
-)
+if errorlevel 1 git commit -q -m "Обновление сайта %date% %time:~0,5%"
 
-echo Отправляю в GitHub. Если откроется окно входа — войдите в аккаунт Yanchek006.
+echo Отправляю код. Если откроется окно входа — войдите в аккаунт Yanchek006.
 git push -u origin main
-if errorlevel 1 (
-  echo.
-  echo В репозитории на GitHub уже есть файлы, которых нет здесь. Объединяю...
-  git pull --no-rebase --no-edit --allow-unrelated-histories -X ours origin main
-  git push -u origin main
-)
-if errorlevel 1 (
-  echo.
-  echo Не получилось отправить. Сделайте скриншот этого окна и пришлите Claude.
-) else (
-  echo.
-  echo Готово. Сайт обновится через 1-2 минуты: https://yanchek006.github.io/IMER/
-)
+if errorlevel 1 goto fail
+
+echo Публикую сайт...
+set "SPLIT="
+for /f %%i in ('git subtree split --prefix site HEAD') do set "SPLIT=%%i"
+if not defined SPLIT goto fail
+git push -f origin %SPLIT%:refs/heads/gh-pages
+if errorlevel 1 goto fail
+
+echo.
+echo Готово. Сайт обновится через 1-2 минуты: https://yanchek006.github.io/IMER/
+pause
+exit /b
+
+:fail
+echo.
+echo Не получилось отправить. Сделайте скриншот этого окна и пришлите Claude.
 pause
