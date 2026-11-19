@@ -27,6 +27,10 @@ git branch -M main
 git config user.name >nul 2>&1 || git config user.name "Yanchek006"
 git config user.email >nul 2>&1 || git config user.email "Yanchek006@users.noreply.github.com"
 
+rem Настройка автопубликации сайта на GitHub Pages (папку .github создаём отсюда)
+if not exist .github\workflows mkdir .github\workflows
+copy /y github-pages.yml .github\workflows\pages.yml >nul
+
 git add -A
 
 rem Защита: если секреты вдруг попали в список, останавливаемся
