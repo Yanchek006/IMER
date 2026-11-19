@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<script>(function(d){d.classList.add("js");try{if(sessionStorage.getItem("imer-v"))d.classList.add("seen");sessionStorage.setItem("imer-v","1")}catch(e){}})(document.documentElement)</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лаборатория: AI-агенты и AI-визуал — IMER</title>
+<meta name="description" content="AI-агенты для рутины и AI-визуал: что можно отдать машине уже сейчас. Проекты от 5 000 ₽.">
+<meta property="og:title" content="Лаборатория: AI-агенты и AI-визуал — IMER">
+<meta property="og:description" content="AI-агенты для рутины и AI-визуал: что можно отдать машине уже сейчас.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500&amp;family=Onest:wght@400;500&amp;family=JetBrains+Mono:wght@400;500&amp;family=Playfair+Display:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="lab" style="margin:0;background:#151412">
+<div class="site lab" style="font-family: Onest, system-ui, sans-serif; color: #F2ECDF; background: #151412">
+<div class="doorload" aria-hidden="true"></div>
+<header class="hdr" style="position: fixed; top: 14px; left: 0; right: 0; height: auto; font-family: Onest, system-ui, sans-serif; color: #151412">
+  <div class="wrap">
+    <a href="index.html" class="logo glass" aria-label="IMER — на главную">
+      <svg viewBox="0 0 342 100" aria-hidden="true"><path d="M0 0H20V100H0Z" fill="#151412"></path><path d="M34 100V40A40 40 0 0 1 114 40V100H94V40A20 20 0 0 0 54 40V100Z" fill="#151412"></path><path d="M94 100V40A40 40 0 0 1 174 40V100H154V40A20 20 0 0 0 114 40V100Z" fill="#151412"></path><path fill-rule="evenodd" d="M57 66Q74 50 91 66Q74 82 57 66ZM60.5 66Q74 55 87.5 66Q74 77 60.5 66Z" fill="#151412"></path><circle cx="74" cy="66" r="7" fill="#D9432A"></circle><circle cx="74" cy="66" r="3" fill="#151412"></circle><path d="M188 0H248V20H208V40H240V60H208V80H248V100H188Z" fill="#151412"></path><path d="M262 0H282V100H262Z" fill="#151412"></path><path d="M282 0H300A30 30 0 0 1 300 60H282V40H300A10 10 0 0 0 300 20H282Z" fill="#151412"></path><path d="M292 60H314L342 100H320Z" fill="#151412"></path></svg>
+    </a>
+    <nav class="nav glass" aria-label="Основное меню">
+      <div class="ddown" data-dd>
+        <a href="services.html" class="dd-top">Услуги</a>
+        <button type="button" class="dd-btn" aria-expanded="false" aria-haspopup="true" aria-label="Список услуг"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></button>
+        <div class="menu" role="menu">
+          <div class="menu-panel">
+            <a href="services.html#quiz" role="menuitem"><b>Подобрать услугу</b><span>3 вопроса&nbsp;— направление и&nbsp;пакет</span></a>
+            <a href="services.html#sites" role="menuitem"><b>Сайты и&nbsp;лендинги</b><span>Tilda или&nbsp;код, под&nbsp;путь клиента</span></a>
+            <a href="services.html#infographics" role="menuitem"><b>Инфографика WB / Ozon</b><span>обложки и&nbsp;слайды для&nbsp;WB и&nbsp;Ozon</span></a>
+            <a href="services.html#branding" role="menuitem"><b>Брендинг и&nbsp;полиграфия</b><span>визитки, листовки, фирменный стиль</span></a>
+            <a href="services.html#decks" role="menuitem"><b>Презентации</b><span>продажи, питч, отчёт</span></a>
+            <a href="services.html#dev" role="menuitem"><b>Разработка и&nbsp;приложения</b><span>сайты на&nbsp;коде, backend, iOS / Android</span></a>
+          </div>
+        </div>
+      </div>
+      <a href="cases.html" >Кейсы</a>
+      <a href="learn.html" >Обучение</a>
+      <a href="lab.html" aria-current="page">Лаборатория</a>
+      <a href="about.html" >О&nbsp;студии</a>
+    </nav>
+    <a href="brief.html" class="btn btn-red hdr-cta"><span class="dot"></span>Обсудить задачу</a>
+    <button type="button" class="burger glass" aria-label="Открыть меню" aria-expanded="false" id="burger"><i></i><i></i></button>
+  </div>
+</header>
+<div class="mmenu" id="mmenu" style="font-family: Onest, system-ui, sans-serif">
+  <a href="services.html"><span>(1)</span>Услуги</a>
+  <a href="cases.html"><span>(2)</span>Кейсы</a>
+  <a href="learn.html"><span>(3)</span>Обучение</a>
+  <a href="lab.html"><span>(4)</span>Лаборатория</a>
+  <a href="about.html"><span>(5)</span>О&nbsp;студии</a>
+  <div class="row">
+    <a href="brief.html" class="btn btn-red mm-cta">Обсудить задачу</a>
+  </div>
+  <p class="mono muted" style="margin-top: 24px">+7 (903) 738-02-76, imer_studio@mail.ru, ежедневно 9:00–21:00</p>
+</div>
+<div class="if" id="cookie" hidden>
+  <div class="toast glass" role="region" aria-label="Уведомление о cookie" style="font-family: Onest, system-ui, sans-serif; color: #151412">
+    <span>Используем cookie, чтобы сайт работал и&nbsp;мы видели, какие страницы полезны. <a class="link-u" href="cookies.html" style="color: #D9432A">Подробнее</a></span>
+    <button type="button" class="btn btn-red" style="height: 44px" data-cookie="all">Принять</button>
+    <button type="button" class="btn" style="height: 44px" data-cookie="needed">Только нужные</button>
+  </div>
+</div>
+<main>
+<section class="phero" style="overflow: hidden">
+  <div class="orb float" style="width: clamp(130px, 22vw, 340px); aspect-ratio: 1; right: 4%; top: 110px" aria-hidden="true"></div>
+  <div class="wrap" style="display: flex; flex-direction: column; gap: 22px">
+    <p class="eyebrow">лаборатория, ai</p>
+    <h1 class="h-xl">Отдайте рутину <span class="it red">машине</span></h1>
+    <p class="lead">AI-агенты и&nbsp;AI-визуал&nbsp;— направления, которые мы развиваем рядом с&nbsp;дизайном и&nbsp;кодом. Берём задачи, где это даёт выгоду уже сейчас.</p>
+    <div class="row"><a href="#agents" class="btn btn-red"><span class="dot"></span>Что&nbsp;умеют агенты</a><a href="#ai-visual" class="btn">AI-визуал</a></div>
+  </div>
+</section>
+
+<section class="sec" id="agents" style="padding-top: 0">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">(01) ai-агенты</p><h2 class="h-l">Где теряется время</h2><p class="lead" style="grid-column: 1 / -1">Агент&nbsp;— программа, которая берёт на&nbsp;себя повторяющиеся действия: отвечает, сортирует, пишет черновики. Вы проверяете результат, а&nbsp;не&nbsp;делаете всё руками.</p></div>
+    <div class="ag-grid">
+      <div class="ag rv"><span class="mono red">01, клиенты</span><h3 class="h-s">Ответы на&nbsp;типовые вопросы</h3><p class="ag-b"><b>Было:</b> одни и&nbsp;те же вопросы о&nbsp;ценах и&nbsp;сроках в&nbsp;директе и&nbsp;мессенджерах.</p><p class="ag-a"><b>Станет:</b> агент отвечает по&nbsp;вашим правилам, сложное передаёт вам.</p></div>
+      <div class="ag rv"><span class="mono red">02, заявки</span><h3 class="h-s">Заявки без&nbsp;ручного переноса</h3><p class="ag-b"><b>Было:</b> копируете данные из&nbsp;формы в&nbsp;таблицу и&nbsp;теряете обращения.</p><p class="ag-a"><b>Станет:</b> заявка сама попадает в&nbsp;таблицу или&nbsp;CRM с&nbsp;пометкой, что&nbsp;нужно клиенту.</p></div>
+      <div class="ag rv"><span class="mono red">03, тексты</span><h3 class="h-s">Описания для&nbsp;карточек</h3><p class="ag-b"><b>Было:</b> каждое описание товара пишется с&nbsp;нуля.</p><p class="ag-a"><b>Станет:</b> черновик по&nbsp;шаблону из&nbsp;характеристик&nbsp;— вы только правите.</p></div>
+      <div class="ag rv"><span class="mono red">04, отчёты</span><h3 class="h-s">Сводки и&nbsp;отчёты</h3><p class="ag-b"><b>Было:</b> вечер на&nbsp;сведение цифр из&nbsp;разных таблиц.</p><p class="ag-a"><b>Станет:</b> сводка приходит в&nbsp;Telegram по&nbsp;расписанию.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec bleed-ink" id="routine">
+  <div class="wrap rcalc">
+    <div class="rc-text">
+      <p class="eyebrow">(02) цена рутины</p>
+      <h2 class="h-l">Сколько стоит <span class="it red">ручная</span> работа</h2>
+      <p class="lead">Прикиньте, сколько часов в&nbsp;неделю уходит на&nbsp;однотипные действия и&nbsp;сколько стоит ваш час.</p>
+    </div>
+    <div class="glass glass-dark rc-box">
+      <label class="rc-row"><span>Часов рутины в&nbsp;неделю</span><b data-out="rh">6</b><input type="range" id="r-h" min="1" max="40" value="6"></label>
+      <label class="rc-row"><span>Стоимость часа,&#8239;₽</span><b data-out="rp">1&nbsp;000</b><input type="range" id="r-p" min="300" max="5000" step="100" value="1000"></label>
+      <div class="rc-res"><p class="mono muted">уходит на&nbsp;рутину</p><p class="rc-big"><span data-out="rm">24</span> ч в&nbsp;месяц</p><p class="mono red"><span data-out="rr">24&nbsp;000</span>&#8239;₽ в&nbsp;месяц, <span data-out="ry">288&nbsp;000</span>&#8239;₽ в&nbsp;год</p></div>
+      <p class="mono muted" style="font-size: 12px">Расчёт на&nbsp;ваших цифрах. Какую часть возьмёт агент, скажем после разбора задачи.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="how">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">(03) как&nbsp;подключаем</p><h2 class="h-l">Три шага</h2></div>
+    <ol class="how3">
+      <li class="rv"><span class="mono red">01</span><h3 class="h-s">Разбираем рутину</h3><p>На&nbsp;консультации смотрим, какие действия повторяются и&nbsp;где агент действительно сэкономит время.</p></li>
+      <li class="rv"><span class="mono red">02</span><h3 class="h-s">Собираем под&nbsp;одну задачу</h3><p>Начинаем с&nbsp;одной понятной задачи, а&nbsp;не&nbsp;с&nbsp;«автоматизации всего».</p></li>
+      <li class="rv"><span class="mono red">03</span><h3 class="h-s">Подключаем и&nbsp;обучаем</h3><p>Встраиваем в&nbsp;ваши инструменты&nbsp;— Telegram, таблицы, CRM&nbsp;— и&nbsp;показываем, как&nbsp;пользоваться.</p></li>
+    </ol>
+    <div class="ag-cta glass">
+      <p class="h-s">AI-проекты&nbsp;— от&nbsp;5&nbsp;000&#8239;₽: ассистенты, чат-боты, автоматизация.</p>
+      <a href="brief.html" class="btn btn-red"><span class="dot"></span>Обсудить автоматизацию</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="ai-visual" style="background: #D9432A; color: #F2ECDF">
+  <div class="wrap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: clamp(32px, 5vw, 80px); align-items: center">
+    <div style="display: flex; flex-direction: column; gap: 18px">
+      <p class="eyebrow" style="color: rgba(242,236,223,.8)">(04) ai-визуал</p>
+      <h2 class="h-l">Визуал быстрее съёмки</h2>
+      <p class="lead">Нет бюджета на&nbsp;фотосессию? Генерируем визуал и&nbsp;доводим его руками дизайнера.</p>
+      <p class="mono">фоны для&nbsp;карточек, иллюстрации для&nbsp;сайтов, визуал для&nbsp;соцсетей, от&nbsp;5&nbsp;000&#8239;₽</p>
+      <a href="brief.html" class="btn btn-paper" style="align-self: flex-start">Обсудить задачу</a>
+    </div>
+    <div style="position: relative; aspect-ratio: 4/5; border-radius: 22px; overflow: hidden; background: #5A140A">
+      <img src="assets/img/lab_head.jpg" alt="AI-визуал: женщина в кремовом костюме с красным шаром вместо головы в пустыне" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
+      <span class="mono" style="position: absolute; left: 14px; bottom: 14px; background: rgba(242,236,223,.9); color: #151412; padding: 8px 12px; border-radius: 999px">ai-визуал, красная мысль</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="experiments">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">(05) эксперименты</p><h2 class="h-l">Работы без&nbsp;брифа</h2><p class="lead" style="grid-column: 1 / -1">Авторские AI-работы, на&nbsp;которых мы проверяем идеи. Здесь&nbsp;— свобода, в&nbsp;услугах&nbsp;— расчёт.</p></div>
+    <div class="exp-grid">
+      <figure class="rv"><img src="assets/img/lab_door.jpg" alt="AI-работа: Арочная дверь на шахматном полу, из неё льётся красный свет" loading="lazy"><figcaption class="mono">Дверь, за которой светло</figcaption></figure>
+      <figure class="rv"><img src="assets/img/lab_eye.jpg" alt="AI-работа: Глаз в стене, из которого течёт красная лента" loading="lazy"><figcaption class="mono">Смотреть — значит течь</figcaption></figure>
+      <figure class="rv"><img src="assets/img/lab_sphere.jpg" alt="AI-работа: Красный шар в чёрной воде в пустой комнате с аркой" loading="lazy"><figcaption class="mono">Тишина с отражением</figcaption></figure>
+      <figure class="rv"><img src="assets/img/lab_hand.jpg" alt="AI-работа: Гипсовая рука держит красную лестницу в темноте" loading="lazy"><figcaption class="mono">Лестница из ладони</figcaption></figure>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="foot" style="font-family: Onest, system-ui, sans-serif; color: #151412; background: #F2ECDF">
+  <div class="wrap">
+    <div class="cols">
+      <div style="display: flex; flex-direction: column; gap: 18px">
+        <svg viewBox="0 0 342 100" style="width: 180px" role="img" aria-label="IMER"><path d="M0 0H20V100H0Z" fill="#151412"></path><path d="M34 100V40A40 40 0 0 1 114 40V100H94V40A20 20 0 0 0 54 40V100Z" fill="#151412"></path><path d="M94 100V40A40 40 0 0 1 174 40V100H154V40A20 20 0 0 0 114 40V100Z" fill="#151412"></path><path fill-rule="evenodd" d="M57 66Q74 50 91 66Q74 82 57 66ZM60.5 66Q74 55 87.5 66Q74 77 60.5 66Z" fill="#151412"></path><circle cx="74" cy="66" r="7" fill="#D9432A"></circle><circle cx="74" cy="66" r="3" fill="#151412"></circle><path d="M188 0H248V20H208V40H240V60H208V80H248V100H188Z" fill="#151412"></path><path d="M262 0H282V100H262Z" fill="#151412"></path><path d="M282 0H300A30 30 0 0 1 300 60H282V40H300A10 10 0 0 0 300 20H282Z" fill="#151412"></path><path d="M292 60H314L342 100H320Z" fill="#151412"></path></svg>
+        <p style="max-width: 32ch">Дизайн, код и&nbsp;AI. Одна команда вместо трёх подрядчиков.</p>
+        <a href="brief.html" class="btn btn-red" style="align-self: flex-start"><span class="dot"></span>Заполнить бриф</a>
+      </div>
+      <div><h4>Услуги</h4><ul><li><a class="link-u" href="services.html">Сайты и&nbsp;лендинги</a></li><li><a class="link-u" href="services.html">Инфографика WB / Ozon</a></li><li><a class="link-u" href="services.html">Брендинг</a></li><li><a class="link-u" href="services.html">Презентации</a></li><li><a class="link-u" href="services.html">Разработка</a></li></ul></div>
+      <div><h4>Студия</h4><ul><li><a class="link-u" href="cases.html">Кейсы</a></li><li><a class="link-u" href="learn.html">Обучение</a></li><li><a class="link-u" href="lab.html">Лаборатория</a></li><li><a class="link-u" href="about.html">О&nbsp;студии</a></li></ul></div>
+      <div><h4>Связь</h4><ul>
+        <li>+7 (903) 738-02-76</li>
+        <li>imer_studio@mail.ru</li>
+        <li><a class="link-u" href="https://t.me/imerbot_bot">Telegram: @imerbot_bot</a></li>
+        <li><a class="link-u" href="https://t.me/imer_studio">Канал</a>, <a class="link-u" href="https://vk.ru/imer_studio">VK</a>, <a class="link-u" href="https://instagram.com/imersiva.studio">Instagram</a></li>
+        <li class="muted">ежедневно 9:00–21:00, удалённо по&nbsp;всей России</li>
+      </ul></div>
+    </div>
+    <div class="base mono muted">
+      <span>© 2026 IMER</span>
+      <span><a class="link-u" href="offer.html">Оферта</a>, <a class="link-u" href="privacy.html">Политика конфиденциальности</a>, <a class="link-u" href="consent.html">Согласие на&nbsp;обработку данных</a>, <a class="link-u" href="cookies.html">Cookie</a></span>
+      <span>дизайн × код × AI</span>
+    </div>
+  </div>
+</footer>
+</div>
+<script src="assets/js/app.js" defer></script>
+</body>
+</html>
