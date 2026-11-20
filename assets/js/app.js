@@ -210,6 +210,16 @@ const sendLead = (lead) => {
     const box = inp.closest('.ba2');
     const set = () => box.style.setProperty('--x', inp.value + '%');
     inp.addEventListener('input', set); set();
+    /* тянуть можно с любой точки: на iPhone range не двигается по касанию мимо бегунка */
+    let on = false;
+    const move = (e) => {
+      const r = box.getBoundingClientRect();
+      inp.value = Math.round(Math.min(100, Math.max(0, (e.clientX - r.left) / r.width * 100)));
+      set();
+    };
+    box.addEventListener('pointerdown', (e) => { on = true; box.setPointerCapture?.(e.pointerId); move(e); });
+    box.addEventListener('pointermove', (e) => { if (on) move(e); });
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach((t) => box.addEventListener(t, () => { on = false; }));
   });
   const cf = $$('[data-cf]');
   cf.forEach((b) => b.addEventListener('click', () => {
@@ -289,7 +299,8 @@ const sendLead = (lead) => {
 
 /* ---------- проявление блоков там, где нет scroll-timeline (Firefox) ---------- */
 (() => {
-  if (CSS.supports('animation-timeline: view()') || !('IntersectionObserver' in window)) return;
+  const appleWK = CSS.supports('font', '-apple-system-body'); // Safari: там scroll-timeline отключён в CSS
+  if ((CSS.supports('animation-timeline: view()') && !appleWK) || !('IntersectionObserver' in window)) return;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const items = document.querySelectorAll('.rv');
   if (!items.length) return;
@@ -298,4 +309,162 @@ const sendLead = (lead) => {
     if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
   }), { rootMargin: '0px 0px -12% 0px' });
   items.forEach((el) => io.observe(el));
+})();
+
+/* ---------- сцены прокрутки: погружение в арку и слияние кругов ----------
+   Работает одинаково во всех браузерах, включая Safari на iPhone. */
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const pinned = (pin) => getComputedStyle(pin).position === 'sticky';
+  const scenes = [];
+
+  /* погружение в арку */
+  const im = document.querySelector('.immerse');
+  if (im) {
+    const pin = im.querySelector('.pin');
+    const draw = (p) => {
+      pin.style.setProperty('--s', Math.pow(26, clamp(p / 0.72)).toFixed(3));
+      pin.style.setProperty('--o', clamp((p - 0.55) / 0.23).toFixed(3));
+    };
+    if (reduce) draw(1);
+    else scenes.push({ el: im, tick() {
+      const r = im.getBoundingClientRect(), vh = innerHeight;
+      draw(pinned(pin) ? clamp(-r.top / Math.max(1, r.height - pin.offsetHeight)) : clamp((vh - r.top) / (vh + r.height * 0.4)));
+    } });
+  }
+
+  /* три круга сливаются в один */
+  const bx = document.getElementById('blobs');
+  if (bx) {
+    const sec = bx.closest('.merge'), pin = sec.querySelector('.pin');
+    const L = bx.querySelector('.b-l'), R = bx.querySelector('.b-r'), M = bx.querySelector('.b-m'), ring = bx.querySelector('.b-ring');
+    const drops = Array.from(bx.querySelectorAll('.drop')).map((c) => ({ c, x: +c.getAttribute('cx'), y: +c.getAttribute('cy'), r: +c.getAttribute('r') }));
+    const lab = { l: bx.querySelector('.bl-l'), m: bx.querySelector('.bl-m'), r: bx.querySelector('.bl-r'), one: bx.querySelector('.bl-one') };
+    const ink = [21, 20, 18], red = [217, 67, 42];
+    const mix = (k) => `rgb(${ink.map((v, i) => Math.round(v + (red[i] - v) * k)).join(',')})`;
+    const t0 = performance.now();
+    const draw = (p, t) => {
+      const e = ease(clamp((p - 0.05) / 0.8));
+      const w = reduce ? 0 : 1 - e;                       // «дыхание», пока круги не слились
+      const wob = (ph) => Math.sin(t * 1.3 + ph) * 9 * w;
+      const lx = 200 + 300 * e, rx = 800 - 300 * e, ro = 122 - 10 * e, rm = 122 + 76 * e;
+      L.setAttribute('cx', lx.toFixed(1)); L.setAttribute('cy', (220 + wob(0)).toFixed(1)); L.setAttribute('r', ro.toFixed(1));
+      R.setAttribute('cx', rx.toFixed(1)); R.setAttribute('cy', (220 + wob(2.1)).toFixed(1)); R.setAttribute('r', ro.toFixed(1));
+      M.setAttribute('cy', (220 + wob(4.2)).toFixed(1)); M.setAttribute('r', rm.toFixed(1));
+      const k = clamp((e - 0.55) / 0.4);
+      L.setAttribute('fill', mix(k)); R.setAttribute('fill', mix(k));
+      drops.forEach((d, i) => {
+        const de = ease(clamp((p - i * 0.07) / 0.55));
+        d.c.setAttribute('cx', (d.x + (500 - d.x) * de + Math.cos(t + i) * 6 * w).toFixed(1));
+        d.c.setAttribute('cy', (d.y + (220 - d.y) * de + Math.sin(t * 1.2 + i) * 6 * w).toFixed(1));
+        d.c.setAttribute('r', (d.r * (1 - de * 0.5)).toFixed(1));
+        d.c.style.opacity = (1 - clamp((de - 0.75) / 0.25)).toFixed(3);
+      });
+      const fade = 1 - clamp((e - 0.2) / 0.25);
+      lab.l.style.left = lx / 10 + '%'; lab.r.style.left = rx / 10 + '%';
+      lab.l.style.opacity = lab.m.style.opacity = lab.r.style.opacity = fade.toFixed(3);
+      const one = clamp((e - 0.82) / 0.18);
+      lab.one.style.opacity = one.toFixed(3);
+      lab.one.style.transform = `translate(-50%,-50%) scale(${(0.7 + 0.3 * one).toFixed(3)})`;
+      const q = clamp((p - 0.82) / 0.18);                 // круг-волна после слияния
+      ring.setAttribute('r', (200 + 90 * q).toFixed(1));
+      ring.style.opacity = (q > 0 && q < 1 ? (1 - q) * 0.8 : 0).toFixed(3);
+    };
+    const prog = () => {
+      const vh = innerHeight;
+      if (pinned(pin)) { const r = sec.getBoundingClientRect(); return clamp(-r.top / Math.max(1, r.height - pin.offsetHeight)); }
+      const r = bx.getBoundingClientRect();               // телефон: от появления снизу до верхней трети экрана
+      return clamp((vh * 0.95 - r.top) / (vh * 0.8));
+    };
+    if (reduce) draw(0, 0);
+    else scenes.push({ el: sec, live: true, tick(now) { draw(prog(), (now - t0) / 1000); } });
+  }
+
+  if (!scenes.length) return;
+  let raf = 0;
+  const vis = new Set();
+  const loop = (now) => {
+    raf = 0;
+    vis.forEach((sc) => sc.tick(now));
+    if ([...vis].some((sc) => sc.live)) raf = requestAnimationFrame(loop); // у кругов «дыхание» и без прокрутки
+  };
+  const kick = () => { if (!raf && vis.size) raf = requestAnimationFrame(loop); };
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    const sc = scenes.find((x) => x.el === e.target);
+    if (e.isIntersecting) vis.add(sc); else { sc.tick(performance.now()); vis.delete(sc); }
+  }), { rootMargin: '200px 0px' });
+  scenes.forEach((sc) => { io.observe(sc.el); sc.tick(performance.now()); });
+  addEventListener('scroll', kick, { passive: true });
+  addEventListener('resize', kick);
+  io.takeRecords(); kick();
+  setTimeout(kick, 300);
+})();
+
+/* ---------- кейсы: слайдеры изображений ---------- */
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('[data-sl]').forEach((sl) => {
+    const tr = sl.querySelector('.sl-track');
+    const ss = Array.from(tr.querySelectorAll('.sl-s'));
+    const cnt = sl.querySelector('.sl-n'), bar = sl.querySelector('.sl-bar i');
+    const prev = sl.querySelector('.prev'), next = sl.querySelector('.next');
+    const pad = (n) => String(n).padStart(2, '0');
+    let cur = 0, raf = 0;
+    const update = () => {
+      raf = 0;
+      const tb = tr.getBoundingClientRect(), c = tb.left + tb.width / 2;
+      let best = 0, bd = Infinity;
+      ss.forEach((s, i) => {
+        const b = s.getBoundingClientRect();
+        const d = (b.left + b.width / 2 - c) / tb.width;     // −1…1: где кадр относительно центра
+        const a = Math.min(1, Math.abs(d) * 1.4);
+        if (!reduce) {
+          s.style.transform = `perspective(1400px) rotateY(${(-d * 16).toFixed(2)}deg) scale(${(1 - a * 0.1).toFixed(3)}) translateY(${(a * 10).toFixed(1)}px)`;
+          s.style.opacity = (1 - a * 0.4).toFixed(3);
+        }
+        if (Math.abs(d) < bd) { bd = Math.abs(d); best = i; }
+      });
+      cur = best;
+      cnt.textContent = pad(best + 1) + ' / ' + pad(ss.length);
+      bar.style.transform = `scaleX(${(best + 1) / ss.length})`;
+      prev.disabled = tr.scrollLeft < 4;
+      next.disabled = tr.scrollLeft > tr.scrollWidth - tr.clientWidth - 4;
+    };
+    const req = () => { if (!raf) raf = requestAnimationFrame(update); };
+    const go = (i) => {
+      const t = ss[Math.max(0, Math.min(ss.length - 1, i))];
+      tr.scrollTo({ left: t.offsetLeft - (tr.clientWidth - t.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' });
+      sl.classList.add('used');
+    };
+    tr.addEventListener('scroll', () => { req(); if (tr.scrollLeft > 20) sl.classList.add('used'); }, { passive: true });
+    addEventListener('resize', req);
+    prev.addEventListener('click', () => go(cur - 1));
+    next.addEventListener('click', () => go(cur + 1));
+    tr.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+    });
+    /* мышью ленту можно тянуть; если тянули — клик не открывает картинку */
+    let down = false, sx = 0, sl0 = 0, moved = false;
+    tr.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      down = true; moved = false; sx = e.clientX; sl0 = tr.scrollLeft;
+    });
+    addEventListener('pointermove', (e) => {
+      if (!down) return;
+      const dx = e.clientX - sx;
+      if (!moved && Math.abs(dx) > 6) { moved = true; tr.classList.add('drag'); }
+      if (moved) tr.scrollLeft = sl0 - dx;
+    });
+    addEventListener('pointerup', () => {
+      if (!down) return;
+      down = false;
+      if (moved) { tr.classList.remove('drag'); update(); go(cur); }
+    });
+    tr.addEventListener('click', (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+    ss.forEach((s) => s.querySelector('img')?.addEventListener('load', req));
+    update();
+  });
 })();
