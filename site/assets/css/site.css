@@ -129,7 +129,7 @@ body.menu-open .mmenu{clip-path:circle(150% at calc(100% - 40px) 38px);visibilit
 /* ---------- immersion (scroll into the arch) ---------- */
 .immerse{height:2200px;background:var(--paper)}
 .immerse .pin{position:sticky;top:0;height:min(100svh,900px);overflow:hidden;display:grid;place-items:center}
-.immerse svg{width:min(40vw,360px);height:auto;transform-origin:50% 66%;will-change:transform}
+.immerse svg{width:min(40vw,360px);height:auto;transform-origin:50% 66%}
 .immerse .cap{position:absolute;bottom:8vh;left:0;right:0;text-align:center}
 .immerse .inside{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 var(--gut);color:var(--paper);opacity:0;pointer-events:none}
 .immerse .inside h2{font-size:clamp(40px,8vw,128px)}
@@ -410,6 +410,7 @@ button.chip{cursor:pointer;background:transparent}
   .doorload{display:none}
   .js .rv.pre,  .immerse{height:auto}.immerse .pin{position:static;height:auto;padding:80px 0}
   .merge{height:auto}.merge .pin{position:static;height:auto}
+  .immerse .pin{min-height:70svh}
 }
 
 /* ===== canvas build additions ===== */
@@ -427,16 +428,14 @@ button.chip{cursor:pointer;background:transparent}
 @keyframes archM{from{transform:translateY(40%)}to{transform:none}}
 @keyframes floatY{50%{transform:translateY(-14px)}}
 @keyframes spinSlow{to{transform:rotate(360deg)}}
-@supports (animation-timeline: view()){
+/* Safari (iOS и macOS) отдельно: у него scroll-timeline и переходы между страницами
+   работают с ошибками (страница перестаёт нажиматься после «назад»). Там всё ведёт JS. */
+@supports (animation-timeline: view()) and (not (font: -apple-system-body)){
   .rv{animation:rise linear both;animation-timeline:view();animation-range:entry 0% cover 28%}
-  .immerse{view-timeline:--imm block}
-  .immerse svg{animation:zoomArch linear both;animation-timeline:--imm;animation-range:contain 0% contain 100%}
-  .immerse .inside{animation:fadeIn linear both;animation-timeline:--imm;animation-range:contain 55% contain 78%}
-  .merge{view-timeline:--mrg block}
-  .arch.l{animation:archL linear both;animation-timeline:--mrg;animation-range:contain 0% contain 60%}
-  .arch.r{animation:archR linear both;animation-timeline:--mrg;animation-range:contain 0% contain 60%}
-  .arch.mid{animation:archM linear both;animation-timeline:--mrg;animation-range:contain 0% contain 60%}
 }
+/* погружение в арку: прогресс --p (0…1) считает JS во всех браузерах */
+.immerse svg{transform:scale(var(--s,1))}
+.immerse .inside{opacity:var(--o,0);transform:translateY(calc((1 - var(--o,0)) * 30px))}
 .float{animation:floatY 7s ease-in-out infinite}
 .float.d2{animation-delay:-2.3s}.float.d3{animation-delay:-4.6s}
 .immerse .opening{fill:var(--red)}
@@ -800,6 +799,7 @@ textarea.tx{resize:vertical;min-height:96px}
 .doorload{animation-delay:.1s}
 
 /* ---- переходы между страницами: новая страница поднимается в арке ---- */
+@supports not (font: -apple-system-body){
 @view-transition{navigation:auto}
 .hdr{view-transition-name:hdr}
 ::view-transition{background:var(--red)}
@@ -807,6 +807,7 @@ textarea.tx{resize:vertical;min-height:96px}
 ::view-transition-old(root){animation:vtOut .3s var(--ease-out) both}
 ::view-transition-new(root){animation:vtIn .62s .08s var(--ease-expo) both}
 ::view-transition-old(hdr),::view-transition-new(hdr){animation-duration:.2s}
+}
 @keyframes vtOut{to{opacity:0;scale:.965;filter:blur(3px)}}
 @keyframes vtIn{from{clip-path:ellipse(6% 4% at 50% 104%)}to{clip-path:ellipse(95% 150% at 50% 104%)}}
 
@@ -831,8 +832,8 @@ html:not(.seen){--d0:.55s}
 .phero .wrap>:nth-child(4){animation-delay:calc(var(--d0) + .21s)}
 .phero>.orb.float{animation:enterFade 1s ease backwards,floatY 7s ease-in-out infinite;animation-delay:calc(var(--d0) + .2s),0s}
 
-/* ---- погружение при прокрутке (Chrome, Edge, Safari 26; в остальных — статично) ---- */
-@supports (animation-timeline: view()){
+/* ---- погружение при прокрутке (Chrome, Edge; в остальных — статично) ---- */
+@supports (animation-timeline: view()) and (not (font: -apple-system-body)){
   /* заголовки разделов выходят из-под линии */
   .sec-head h2:not(.rv){animation:headIn linear both;animation-timeline:view();animation-range:entry 5% cover 30%}
   /* постеры и скриншоты открываются аркой, картинка внутри «оседает» */
@@ -944,4 +945,90 @@ html:not(.seen){--d0:.55s}
   #c-01 .ba2 .lbl{font-size:11px;padding:6px 10px;top:12px}#c-01 .ba2 .lbl.l{left:12px}#c-01 .ba2 .lbl.r{right:12px}
   #c-01 .ba2 .handle::after{width:40px;height:40px;font-size:15px}
   #c-01 .ba-item .mono{font-size:12px}
+}
+/* обучение: на телефоне «профессионала» целиком в одну строку, без переноса посреди слова */
+@container site (max-width:640px){.h1-learn{font-size:min(7cqi,40px)!important;overflow-wrap:normal}}
+
+/* ---------- (03) решение: три круга сливаются в один ---------- */
+.blobs{padding:0 var(--gut)}
+.blobs .stage{position:relative;aspect-ratio:1000/440;width:min(100%,1100px,calc(46svh * 1000 / 440));margin:0 auto}
+.blobs svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.blobs .b-ring{opacity:0}
+.blobs .bl{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font:500 clamp(13px,2vw,26px)/1 var(--f-display);color:var(--paper);letter-spacing:-.01em;pointer-events:none;white-space:nowrap}
+.blobs .bl-l{left:20%}.blobs .bl-r{left:80%}
+.blobs .bl-one{font-size:clamp(20px,3.6vw,48px);opacity:0;letter-spacing:-.03em}
+@container site (max-width:760px){
+  .merge{height:auto}
+  .merge .pin{position:static;height:auto;padding:72px 0 56px}
+  .blobs{padding:0 6px}
+  .blobs .stage{width:100%}
+}
+
+/* ---------- кейсы: слайдер изображений (02–07) ----------
+   Лента с прокруткой и примагничиванием; соседние кадры чуть повёрнуты и уменьшены
+   (эффект считает JS), картинки целиком, без обрезки. */
+.sl{--slh:clamp(300px,44vw,600px);position:relative}
+.sl-track{position:relative;display:flex;gap:clamp(12px,2vw,24px);overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
+  padding:8px 6% 18px;margin:0 calc(var(--gut) * -1);scroll-padding:0 6%;scrollbar-width:none;overscroll-behavior-x:contain;outline:0;cursor:grab}
+.sl-track::-webkit-scrollbar{display:none}
+.sl-track.drag{scroll-snap-type:none;cursor:grabbing}
+.sl-track:focus-visible{box-shadow:inset 0 0 0 2px var(--red);border-radius:18px}
+.cs-media .sl .sl-s{flex:0 0 auto;width:auto;height:var(--slh);scroll-snap-align:center;border-radius:20px;background:#efe8da;
+  transition:none;animation:none;transform-origin:50% 60%;will-change:transform;box-shadow:0 30px 60px -36px rgba(21,20,18,.55)}
+.cs-media .sl .sl-s img{height:100%;width:auto;max-width:none;aspect-ratio:auto;object-fit:contain;animation:none;transform:none}
+.cs-media .sl .sl-s:hover img{transform:none}
+.sl-ui{display:flex;align-items:center;gap:14px;margin-top:6px}
+.sl-n{font-size:13px;letter-spacing:.06em;min-width:64px}
+.sl-bar{position:relative;flex:1;height:2px;background:rgba(21,20,18,.14);border-radius:2px;overflow:hidden}
+.sl-bar i{position:absolute;inset:0;background:var(--red);transform-origin:0 50%;transform:scaleX(.25);transition:transform .45s var(--ease-out)}
+.sl-hint{font-size:12px;opacity:.55;transition:opacity .4s}
+.sl.used .sl-hint{opacity:0}
+.sl-btn{width:46px;height:46px;border-radius:50%;border:1px solid rgba(21,20,18,.18);background:transparent;color:var(--ink);font:500 18px/1 var(--f-mono);cursor:pointer;display:grid;place-items:center;
+  transition:background-color .2s,color .2s,opacity .2s,scale .16s var(--ease-out)}
+.sl-btn:hover{background:var(--ink);color:var(--paper)}
+.sl-btn:active{scale:.94}
+.sl-btn:disabled{opacity:.3;pointer-events:none}
+@container site (max-width:640px){
+  .sl{--slh:calc((100cqi - 24px) * .7)}
+  .sl-track{padding:6px 12px 16px;scroll-padding:0 12px;gap:12px}
+  .sl-btn{width:40px;height:40px;font-size:16px}
+}
+
+/* ---------- кейс 01: до/после крупнее (телефон и планшет) ---------- */
+@container site (max-width:640px){
+  #c-01 .ba-grid{grid-template-columns:1fr;gap:22px}
+  #c-01 .ba2{aspect-ratio:3/4}
+  #c-01 .ba2 .lbl{font-size:11px;padding:6px 10px;top:12px}#c-01 .ba2 .lbl.l{left:12px}#c-01 .ba2 .lbl.r{right:12px}
+  #c-01 .ba2 .handle::after{width:44px;height:44px;font-size:16px}
+  #c-01 .ba-item .mono{font-size:12px}
+}
+@media (max-width:640px){
+  #c-01 .ba-grid{grid-template-columns:1fr!important;gap:22px}
+}
+/* до/после: тянуть можно с любой точки картинки (на iPhone ползунок не прыгает по касанию) */
+.ba2{cursor:ew-resize}
+.ba2 input{pointer-events:none}
+.burger{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+
+/* ---------- очень узкие экраны (Galaxy Fold в сложенном виде, iPhone SE 1-го поколения) ---------- */
+@container site (max-width:340px){
+  .hero-bottom h1{font-size:28px}
+  .h-xl{font-size:clamp(26px,9cqi,34px)}
+  .foot .cols{grid-template-columns:1fr!important}
+  .hero-cards{gap:6px}
+  .wrap{--gut:14px}
+}
+/* телефон боком: невысокий экран, не даём закреплённым сценам обрезаться */
+@media (max-height:500px) and (orientation:landscape){
+  .merge{height:auto}.merge .pin{position:static;height:auto;padding:56px 0}
+  .blobs .stage{width:min(100%,560px)}
+}
+.pk{grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))!important}
+@container site (max-width:340px){
+  .slist a{grid-template-columns:36px minmax(0,1fr) 32px!important;gap:10px}
+  .slist a .price{grid-column:2}
+  .pitem{grid-template-columns:auto minmax(0,1fr)!important}
+  .pitem>:last-child{grid-column:1/-1}
+  .pitem h3{font-size:22px;overflow-wrap:anywhere}
+  .step{min-width:0}
 }
