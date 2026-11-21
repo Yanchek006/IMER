@@ -389,7 +389,8 @@ button.chip{cursor:pointer;background:transparent}
   .cases,.cgrid,.reviews,.lab-cards,.tri,.pk,.opts-grid,.merge .legend{grid-template-columns:1fr}
   .proc{grid-template-columns:1fr 1fr}
   .nofor,.principles{grid-template-columns:1fr}
-  .slist a{grid-template-columns:44px 1fr 36px}
+  .slist a{grid-template-columns:40px minmax(0,1fr) 36px;gap:12px}
+  .slist h3{font-size:clamp(20px,6vw,40px);overflow-wrap:anywhere;hyphens:auto}
   .slist .price{grid-column:2;text-align:left}
   .slist .arr{grid-row:1;grid-column:3;width:36px;height:36px}
   .sec-head{grid-template-columns:1fr}
