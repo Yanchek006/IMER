@@ -57,21 +57,33 @@ BotFather пришлёт токен вида `1234567890:AAE...`.
 
 ### Круглосуточно, даже когда компьютер выключен
 
-Нужен сервер: недорогой VPS на Linux (Timeweb Cloud, Beget, Selectel и др.).
+Бот переезжает на сервер: маленький компьютер в дата-центре, который не выключается.
+Подходит самый дешёвый облачный сервер, например Timeweb Cloud: 1 ядро, 1 ГБ памяти, Ubuntu 24.04.
+Страну лучше выбрать Нидерланды: так до Telegram дотягиваться надёжнее.
 
-```bash
-# на сервере, один раз
-sudo apt install -y python3-venv git
-git clone https://github.com/Yanchek006/IMER.git /opt/imer
-cd /opt/imer/bot && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-nano .env                      # BOT_TOKEN, ADMIN_IDS, SITE_URL, LEADS_URL
-sudo useradd -r -s /usr/sbin/nologin imerbot && sudo chown -R imerbot /opt/imer
-sudo cp deploy/imer-bot.service /etc/systemd/system/
-sudo systemctl enable --now imer-bot
-```
+1. Запустите `opublikovat.bat` — код бота уйдёт на GitHub, оттуда его заберёт сервер.
+2. Создайте сервер (Ubuntu 24.04) и откройте его консоль: в панели Timeweb кнопка «Консоль»,
+   или в PowerShell на компьютере `ssh root@IP-сервера` (пароль придёт на почту).
+3. Вставьте одну строку и нажмите Enter:
 
-Обновить после изменений: `cd /opt/imer && git pull && sudo systemctl restart imer-bot`.
-Когда бот работает на сервере, на компьютере его выключите (`avtozapusk-vykl.bat`): Telegram не даёт двум копиям одного бота работать одновременно.
+   ```bash
+   curl -fsSL https://raw.githubusercontent.com/Yanchek006/IMER/main/bot/deploy/ustanovka.sh -o u.sh && sudo bash u.sh
+   ```
+
+   Скрипт сам поставит всё нужное и спросит токен, ваш Telegram ID и ссылку для заявок —
+   скопируйте их из файла `bot\.env` на компьютере.
+4. На компьютере запустите `avtozapusk-vykl.bat`: Telegram не даёт двум копиям одного бота работать сразу.
+5. Напишите боту `/start`.
+
+Дальше ничего делать не нужно: бот работает круглосуточно, сам поднимается после сбоя и перезагрузки,
+а раз в 10 минут забирает обновления с GitHub. Поменяли `texts.py` — запустите `opublikovat.bat`,
+через 10 минут бот на сервере обновится сам.
+
+Команды на сервере, если понадобится:
+- `systemctl status imer-bot` — работает ли бот;
+- `tail -n 50 /opt/imer/bot/bot.log` — что он делал;
+- `imer-bot-update` — забрать обновления прямо сейчас;
+- `nano /opt/imer/bot/.env`, затем `systemctl restart imer-bot` — поменять токен или ID.
 
 ## Как поменять тексты
 Все тексты, цены, кейсы и ответы на сомнения — в файле `texts.py`. Меняйте слова между кавычками и перезапускайте бота. Код в `bot.py` трогать не нужно.

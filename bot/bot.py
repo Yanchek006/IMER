@@ -65,7 +65,10 @@ ADMIN_IDS = [int(x) for x in re.findall(r"-?\d+", os.getenv("ADMIN_IDS", ""))]
 SITE_URL = os.getenv("SITE_URL", "").rstrip("/")
 LEADS_URL = os.getenv("LEADS_URL", "")
 IMG_DIR = Path(os.getenv("IMG_DIR", str(BASE.parent / "site" / "assets" / "img")))
-KP_FILE = Path(os.getenv("KP_FILE", str(BASE.parent / "docs" / "IMER — коммерческое предложение.pdf")))
+# КП: на компьютере берём свежий файл из docs, на сервере — копию bot/assets/kp.pdf
+# (её кладёт туда opublikovat.bat при каждой публикации).
+_KP_DOCS = BASE.parent / "docs" / "IMER — коммерческое предложение.pdf"
+KP_FILE = Path(os.getenv("KP_FILE") or (_KP_DOCS if _KP_DOCS.exists() else BASE / "assets" / "kp.pdf"))
 GUIDE_FILE = BASE / "assets" / "guide_infographics.pdf"
 
 if not TOKEN or ":" not in TOKEN:

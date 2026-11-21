@@ -35,6 +35,9 @@ git fetch -q origin
 rem Собираем все неотправленные изменения в одну публикацию поверх того, что уже на GitHub
 git rev-parse -q --verify origin/main >nul && git reset -q --soft origin/main
 
+rem Свежая копия КП для бота на сервере (документы в GitHub не уходят, а КП боту нужен)
+for %%f in ("docs\IMER*.pdf") do copy /y "%%f" "bot\assets\kp.pdf" >nul
+
 git add -A
 
 rem Защита: если секреты вдруг попали в список, останавливаемся
