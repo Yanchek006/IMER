@@ -568,6 +568,7 @@ class Learn(StatesGroup):
 async def learn(m: Message, state: FSMContext):
     await state.clear()
     rows = [[("🧭 Подобрать программу за 3 вопроса", "learn:test")],
+            [("📚 Подробные планы обучения", "plans")],
             [("🎯 Квест для дизайнеров + гайд в подарок", "quest:0")]]
     if SITE_URL:
         rows.append([("🌐 Программы и цены на сайте", site("learn.html"))])
@@ -612,8 +613,40 @@ async def learn_answer(c: CallbackQuery, state: FSMContext):
     else:
         note = "Пропустим то, что вы уже знаете, и сфокусируемся на практике и портфолио."
     await c.message.answer(f"<b>Вам подойдёт: {direction}, {spec}</b>\n{T.LEARN_FORMAT[fmt]}, {price}\n\n{note}",
-                           reply_markup=ikb([[("📝 Записаться на консультацию", "lead:start:learn")],
+                           reply_markup=ikb([[("📚 Подробный план программы", "plan:" + T.LEARN_PLAN.get(what, "01"))],
+                                             [("📝 Записаться на консультацию", "lead:start:learn")],
                                              [("🎯 Пройти квест", "quest:0")]]))
+
+
+# ---------- подробные планы обучения ----------
+PLANS_DIR = BASE / "assets" / "plans"
+
+
+@router.callback_query(F.data == "plans")
+async def plans(c: CallbackQuery):
+    await c.answer()
+    items = [(("✅ " if (PLANS_DIR / f"{slug}.pdf").exists() else "") + name, f"plan:{code}") for code, slug, name in T.PLANS]
+    rows = [items[i:i + 2] for i in range(0, len(items), 2)]
+    await c.message.answer(T.PLANS_INTRO, reply_markup=ikb(rows))
+
+
+@router.callback_query(F.data.startswith("plan:"))
+async def plan(c: CallbackQuery):
+    await c.answer()
+    code = c.data.split(":", 1)[1]
+    found = next(((slug, name) for cd, slug, name in T.PLANS if cd == code), None)
+    if not found:
+        return
+    slug, name = found
+    f = PLANS_DIR / f"{slug}.pdf"
+    if f.exists():
+        await c.message.answer_document(FSInputFile(f, filename=f"IMER — план обучения {name}.pdf"),
+                                        caption=f"Подробный план программы {name}: 6 уроков по 1,5 часа, практика, итоговая работа и бонусы.",
+                                        reply_markup=ikb([[("📝 Записаться на консультацию", "lead:start:learn")],
+                                                          [("📚 Другие программы", "plans")]]))
+    else:
+        await c.message.answer(f"<b>{name}</b>\n\n{T.PLAN_SOON}",
+                               reply_markup=ikb([[("📝 Оставить заявку", "lead:start:learn")], [("📚 Другие программы", "plans")]]))
 
 
 # ---------- квест ----------

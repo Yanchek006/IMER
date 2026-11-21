@@ -308,6 +308,23 @@ LEARN_RESULT = {
 }
 LEARN_FORMAT = {"self": "самостоятельный формат", "group": "групповой формат", "mentor": "индивидуальный формат"}
 
+# ---------- подробные планы обучения (PDF лежат в assets/plans/<файл>.pdf) ----------
+PLANS = [
+    ("01", "01-ui-ux-design", "UI/UX Design"), ("02", "02-web-design", "Web Design"),
+    ("03", "03-graphic-design", "Graphic Design"), ("04", "04-3d-design", "3D Design"),
+    ("05", "05-ai-design", "AI Design"), ("06", "06-motion-design", "Motion Design"),
+    ("07", "07-frontend", "Frontend"), ("08", "08-backend", "Backend"),
+    ("09", "09-full-stack", "Full Stack"), ("10", "10-mobile", "Mobile"),
+    ("11", "11-game-dev", "Game Dev"), ("12", "12-ai-development", "AI Development"),
+    ("13", "13-product", "Product"), ("14", "14-startup", "Startup"),
+    ("15", "15-career", "Карьера в IT"),
+]
+PLANS_INTRO = ("📚 <b>Подробные планы обучения</b>\n\n"
+               "Выберите программу — пришлём PDF: для кого она, 6 уроков по 1,5 часа, "
+               "практика, сквозной проект, итоговая работа и бонусы.")
+PLAN_SOON = "План этой программы сейчас дорабатываем. Оставьте заявку — пришлём, как только будет готов, и расскажем о старте потока."
+LEARN_PLAN = {"ui": "01", "graphic": "03", "code": "07", "product": "13"}
+
 # ---------- квест для дизайнеров ----------
 QUEST_INTRO = ("🎯 <b>Квест для дизайнеров: 9 ситуаций из практики</b>\n\n"
                "На каждую — два варианта. За верный ответ +1 балл.\n"
