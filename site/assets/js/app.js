@@ -468,3 +468,31 @@ const sendLead = (lead) => {
     update();
   });
 })();
+
+/* Заголовки: если самое длинное слово не помещается в ширину экрана,
+   плавно уменьшаем шрифт, чтобы слово не разрывалось посередине. */
+(() => {
+  const SEL = 'h1,h2,h3,.h-xxl,.h-xl,.h-l,.h-m,.mmenu a,.price b';
+  const els = Array.from(document.querySelectorAll(SEL));
+  const fit = (el) => {
+    const w = el.clientWidth;
+    if (!w || el._fitW === w) return;
+    el._fitW = w;
+    el.style.fontSize = '';
+    let fs = parseFloat(getComputedStyle(el).fontSize), n = 0;
+    while (el.scrollWidth > w + 1 && fs > 13 && n++ < 40) {
+      fs *= 0.95;
+      el.style.fontSize = fs.toFixed(2) + 'px';
+    }
+  };
+  const all = () => els.forEach((el) => { el._fitW = 0; fit(el); });
+  if ('ResizeObserver' in window) {
+    const ro = new ResizeObserver((list) => list.forEach((e) => fit(e.target)));
+    els.forEach((el) => ro.observe(el));
+  } else {
+    window.addEventListener('resize', all);
+  }
+  all();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(all);
+  window.addEventListener('load', all);
+})();
