@@ -352,7 +352,7 @@ button.chip{cursor:pointer;background:transparent}
 .cursor.big{width:64px;height:64px;opacity:.35}
 
 /* ---------- responsive ---------- */
-@container site (max-width:1100px){
+@media (max-width:1100px){
   .nav{display:none}
   .burger{display:grid}
   .hdr-cta{display:none}
@@ -361,7 +361,7 @@ button.chip{cursor:pointer;background:transparent}
   .principles{grid-template-columns:repeat(2,1fr);row-gap:28px}
   .foot .cols{grid-template-columns:1fr 1fr}
 }
-@container site (max-width:900px){
+@media (max-width:900px){
   .hero-bottom{grid-template-columns:1fr}
   .calc{grid-template-columns:1fr}
   .cases,.cgrid,.reviews,.lab-cards,.tri{grid-template-columns:1fr 1fr}
@@ -378,7 +378,7 @@ button.chip{cursor:pointer;background:transparent}
   .team{grid-template-columns:1fr}
   .casehead{grid-template-columns:1fr 1fr}
 }
-@container site (max-width:640px){
+@media (max-width:640px){
   body{font-size:16px}
   .hero{padding-top:96px}
   .hero .meta{grid-template-columns:1fr 1fr}
@@ -415,7 +415,7 @@ button.chip{cursor:pointer;background:transparent}
 }
 
 /* ===== canvas build additions ===== */
-.site{container:site/inline-size;position:relative;min-height:100%;background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--f-body);overflow-x:clip}
+.site{position:relative;min-height:100%;background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--f-body);overflow-x:clip}
 .site .hdr .wrap{padding-top:0}
 .site main{display:block}
 /* load-in: the red arch door opens */
@@ -498,7 +498,7 @@ h1,h2,h3,h4,.display{text-wrap:balance}
 section>.wrap,section>.pin,.cs>.wrap{position:relative;z-index:2}
 .calc-sec .orb{width:clamp(180px,22vw,360px);right:-7%;top:auto;bottom:-10%}
 .phero .orb{opacity:.95}
-@container site (max-width:900px){
+@media (max-width:900px){
   .calc-sec .orb{width:170px;right:-14%;bottom:-6%}
   .phero .orb{width:120px!important;right:-30px!important;top:84px!important}
   .hero .orb{width:150px;right:-30px;top:-20px}
@@ -558,8 +558,8 @@ section>.wrap,section>.pin,.cs>.wrap{position:relative;z-index:2}
 .lb::backdrop{background:rgba(21,20,18,.86);backdrop-filter:blur(6px)}
 .lb img{max-width:min(92vw,1200px);max-height:88vh;width:auto;height:auto;border-radius:14px;display:block}
 .lb-x{position:absolute;top:-48px;right:0;width:40px;height:40px;border-radius:50%;border:0;background:var(--paper);font:400 24px/1 var(--f-body);cursor:pointer}
-@container site (max-width:1100px){.ba-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cs-media.four{grid-template-columns:repeat(2,minmax(0,1fr))}.cs-head{grid-template-columns:70px 1fr}.cs-facts{grid-column:1/-1}}
-@container site (max-width:640px){
+@media (max-width:1100px){.ba-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cs-media.four{grid-template-columns:repeat(2,minmax(0,1fr))}.cs-head{grid-template-columns:70px 1fr}.cs-facts{grid-column:1/-1}}
+@media (max-width:640px){
   .cs-index a{grid-template-columns:36px 1fr 24px}.cs-index .d{grid-column:2;text-align:left;grid-row:2}.cs-index .arr{grid-row:1;grid-column:3}
   .cs-head{grid-template-columns:1fr}.cs-n{font-size:32px}
   .cs-media .two,.cs-media.three{grid-template-columns:1fr}.cs-media .five{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -591,25 +591,25 @@ section>.wrap,section>.pin,.cs>.wrap{position:relative;z-index:2}
 .tariff .btn{margin-top:auto;align-self:flex-start}
 .extras{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:24px}
 .extras>div{border-top:1px solid var(--ink);padding-top:14px;display:flex;flex-direction:column;gap:6px}
-@container site (max-width:900px){.tariffs,.extras{grid-template-columns:1fr}.fmt>div.hi{margin-top:0}}
+@media (max-width:900px){.tariffs,.extras{grid-template-columns:1fr}.fmt>div.hi{margin-top:0}}
 
 /* ===== правки v4: адаптив и текст ===== */
 h1,h2,h3,.h-xxl,.h-xl,.h-l,.h-m,.lead,dd,p,li,summary,td,th{overflow-wrap:break-word;hyphens:auto;-webkit-hyphens:auto}
-.h-xxl{font-size:clamp(44px,10.5cqi,168px)}
-.h-xl{font-size:clamp(36px,6.4cqi,104px)}
-.h-l{font-size:clamp(28px,4.2cqi,60px)}
+.h-xxl{font-size:clamp(44px,10.5vw,168px)}
+.h-xl{font-size:clamp(36px,6.4vw,104px)}
+.h-l{font-size:clamp(28px,4.2vw,60px)}
 .cs-title,.cs-head>*,.sec-head>*,.cases>*,.tariffs>*,.specs>*{min-width:0}
 .sec-head{grid-template-columns:minmax(0,1fr) auto}
 .btn{max-width:100%}
-.immerse .inside h2{font-size:clamp(28px,7cqi,120px)}
-@container site (max-width:640px){
+.immerse .inside h2{font-size:clamp(28px,7vw,120px)}
+@media (max-width:640px){
   :root{--gut:20px}
   .wrap{padding-left:20px;padding-right:20px}
-  .h-xxl{font-size:10.5cqi}
-  .h-xl{font-size:min(38px,9.2cqi)}
-  .h-l{font-size:min(30px,7.6cqi)}
-  .h-m{font-size:min(24px,6.4cqi)}
-  .immerse .inside h2{font-size:7.4cqi}
+  .h-xxl{font-size:10.5vw}
+  .h-xl{font-size:min(38px,9.2vw)}
+  .h-l{font-size:min(30px,7.6vw)}
+  .h-m{font-size:min(24px,6.4vw)}
+  .immerse .inside h2{font-size:7.4vw}
   .sec-head{grid-template-columns:minmax(0,1fr)}
   .btn{white-space:normal;height:auto;min-height:48px;padding:12px 20px;line-height:1.2;text-align:left}
   .faq summary{font-size:17px}
@@ -643,10 +643,10 @@ body.menu-open .burger i:last-child,.burger.x i:last-child{transform:translateY(
 .cs-media .four .zoom img{aspect-ratio:1}
 .zoom.wide img{aspect-ratio:16/10}
 .ba-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-.cs-head .h-l{font-size:clamp(26px,3.2cqi,48px)}
-@container site (max-width:1100px){.ba-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.cs-media .four{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@container site (max-width:640px){
-  .cs-head .h-l{font-size:min(28px,7.2cqi)}
+.cs-head .h-l{font-size:clamp(26px,3.2vw,48px)}
+@media (max-width:1100px){.ba-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.cs-media .four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){
+  .cs-head .h-l{font-size:min(28px,7.2vw)}
   .cs-media .three{grid-template-columns:repeat(2,minmax(0,1fr))}
   .cs-media .three>:first-child{grid-column:1/-1}
   .cs-media .two{grid-template-columns:1fr}
@@ -670,7 +670,7 @@ body.menu-open .burger i:last-child,.burger.x i:last-child{transform:translateY(
 .rc-row b{font:500 15px var(--f-mono)}
 .rc-row input{grid-column:1/-1;accent-color:var(--red);width:100%}
 .rc-res{border-top:1px solid rgba(242,236,223,.2);padding-top:18px;display:flex;flex-direction:column;gap:6px}
-.rc-big{font:500 clamp(32px,4cqi,56px)/1 var(--f-display);letter-spacing:-.03em}
+.rc-big{font:500 clamp(32px,4vw,56px)/1 var(--f-display);letter-spacing:-.03em}
 .how3{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px;counter-reset:none}
 .how3 li{display:flex;flex-direction:column;gap:10px;padding-top:16px;border-top:1px solid var(--ink)}
 .how3 p{color:#3b3833;font-size:15px}
@@ -679,8 +679,8 @@ body.menu-open .burger i:last-child,.burger.x i:last-child{transform:translateY(
 .exp-grid figure{display:flex;flex-direction:column;gap:10px}
 .exp-grid img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px}
 .faq,.faq details,.faq summary{min-width:0}.faq summary>*{min-width:0}
-@container site (max-width:760px){#faq .faq{grid-column:1/-1!important}#faq .wrap{grid-template-columns:minmax(0,1fr)!important}}
-@container site (max-width:640px){.hcard .tag{font-size:min(11px,2.9cqi);padding:4px 6px}}
+@media (max-width:760px){#faq .faq{grid-column:1/-1!important}#faq .wrap{grid-template-columns:minmax(0,1fr)!important}}
+@media (max-width:640px){.hcard .tag{font-size:min(11px,2.9vw);padding:4px 6px}}
 h1,h2,h3,.h-xxl,.h-xl,.h-l,.h-m,.lead,dd,p,li,summary,td,th,.t{hyphens:manual;-webkit-hyphens:manual}
 .burger{place-content:center;row-gap:5px}.burger i{margin:0 auto}
 /* лаборатория на тёмном фоне */
@@ -715,7 +715,7 @@ h1,h2,h3,.h-xxl,.h-xl,.h-l,.h-m,.lead,dd,p,li,summary,td,th,.t{hyphens:manual;-w
 .it{font-family:inherit!important;font-weight:inherit!important;font-style:normal!important;letter-spacing:inherit!important}
 /* большие суммы не переносят ₽ */
 .calc .big-num,.rc-big,.price b{white-space:nowrap}
-.calc .big-num{font-size:clamp(34px,5.4cqi,80px)}
+.calc .big-num{font-size:clamp(34px,5.4vw,80px)}
 /* вопросы: отступ от блока выше */
 #faq{padding-top:clamp(64px,9vw,140px)}
 /* фото в услугах на всю ширину под колонками */
@@ -724,14 +724,14 @@ h1,h2,h3,.h-xxl,.h-xl,.h-l,.h-m,.lead,dd,p,li,summary,td,th,.t{hyphens:manual;-w
 #branding .dir>.svc-pics.row4 img{aspect-ratio:4/3}
 #decks .dir>.svc-pics.row4 img{aspect-ratio:1}
 .dir>p.mono{grid-column:1/-1}
-@container site (max-width:900px){.dir>.svc-pics.row4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){.dir>.svc-pics.row4{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* ===== правки v7: услуги ===== */
 /* левая колонка больше не «едет» за скроллом и не наезжает на картинки */
 .dir .side{position:static!important;top:auto}
 .dir>.svc-pics.row4.two{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
 #infographics .dir>.svc-pics.row4.two img{aspect-ratio:4/3;background:#EFE9DD}
 #branding .dir>.svc-pics.row4.two img{aspect-ratio:auto}
-@container site (max-width:640px){.dir>.svc-pics.row4.two{grid-template-columns:1fr}}
+@media (max-width:640px){.dir>.svc-pics.row4.two{grid-template-columns:1fr}}
 /* картинки без фона (PNG/WebP с прозрачностью) */
 .dir>.svc-pics.clean img{aspect-ratio:auto!important;background:transparent!important;border-radius:0;object-fit:contain;max-height:620px;margin:0 auto}
 #dev .dir>.svc-pics.row4.two img{aspect-ratio:4/3}
@@ -780,13 +780,13 @@ textarea.tx{resize:vertical;min-height:96px}
 .b2-err{margin-top:-8px}
 .b2-fnav{margin-top:28px;display:flex;justify-content:space-between;gap:12px}
 .b2-fnav #b2-next{margin-left:auto}
-@container site (max-width:900px){
+@media (max-width:900px){
   .brief2{grid-template-columns:1fr}
   .b2-nav{position:static;flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:4px}
   .b2-nav button{grid-template-columns:auto auto;white-space:nowrap;padding:8px 12px;border:0;border-radius:999px;background:rgba(21,20,18,.06)}
   .b2-nav li.on button{background:var(--ink);color:var(--paper)}
 }
-@container site (max-width:640px){.dirs2,.b2-two{grid-template-columns:1fr}.chip2 span{font-size:14px;padding:9px 14px}.b2-fnav .btn{flex:1;justify-content:center}}
+@media (max-width:640px){.dirs2,.b2-two{grid-template-columns:1fr}.chip2 span{font-size:14px;padding:9px 14px}.b2-fnav .btn{flex:1;justify-content:center}}
 #b2-back[hidden]{display:none}
 
 /* =====================================================================
@@ -925,11 +925,11 @@ html:not(.seen){--d0:.55s}
 .pj-strip>span{font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-right:6px;opacity:.85}
 .pj-strip a{display:inline-flex;gap:6px;align-items:center;padding:10px 16px;border-radius:99px;border:1px solid rgba(242,236,223,.55);color:inherit;text-decoration:none;font-size:15px;transition:background-color .2s ease,color .2s ease}
 @media (hover:hover) and (pointer:fine){.pj-strip a:hover{background:var(--paper);color:var(--red)}}
-@container site (max-width:900px){
+@media (max-width:900px){
   .pj-sec .sec-head{grid-template-columns:1fr}
   .pj,.pj-big{grid-column:span 6}
 }
-@container site (max-width:560px){
+@media (max-width:560px){
   .pj,.pj-big{grid-column:1/-1}
 }
 
@@ -941,14 +941,14 @@ html:not(.seen){--d0:.55s}
 .learn-vis .lv-card{align-self:flex-start;width:min(78%,340px)}
 .learn-vis .lv-2{position:relative;right:auto;bottom:auto;align-self:flex-end;width:min(70%,300px)}
 /* кейс 01: на телефоне слайдеры до/после во всю ширину, по одному */
-@container site (max-width:640px){
+@media (max-width:640px){
   #c-01 .ba-grid{grid-template-columns:1fr;gap:20px}
   #c-01 .ba2 .lbl{font-size:11px;padding:6px 10px;top:12px}#c-01 .ba2 .lbl.l{left:12px}#c-01 .ba2 .lbl.r{right:12px}
   #c-01 .ba2 .handle::after{width:40px;height:40px;font-size:15px}
   #c-01 .ba-item .mono{font-size:12px}
 }
 /* обучение: на телефоне «профессионала» целиком в одну строку, без переноса посреди слова */
-@container site (max-width:640px){.h1-learn{font-size:min(7cqi,40px)!important;overflow-wrap:normal}}
+@media (max-width:640px){.h1-learn{font-size:min(7vw,40px)!important;overflow-wrap:normal}}
 
 /* ---------- (03) решение: три круга сливаются в один ---------- */
 .blobs{padding:0 var(--gut)}
@@ -958,7 +958,7 @@ html:not(.seen){--d0:.55s}
 .blobs .bl{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font:500 clamp(13px,2vw,26px)/1 var(--f-display);color:var(--paper);letter-spacing:-.01em;pointer-events:none;white-space:nowrap}
 .blobs .bl-l{left:20%}.blobs .bl-r{left:80%}
 .blobs .bl-one{font-size:clamp(20px,3.6vw,48px);opacity:0;letter-spacing:-.03em}
-@container site (max-width:760px){
+@media (max-width:760px){
   .merge{height:auto}
   .merge .pin{position:static;height:auto;padding:72px 0 56px}
   .blobs{padding:0 6px}
@@ -989,14 +989,14 @@ html:not(.seen){--d0:.55s}
 .sl-btn:hover{background:var(--ink);color:var(--paper)}
 .sl-btn:active{scale:.94}
 .sl-btn:disabled{opacity:.3;pointer-events:none}
-@container site (max-width:640px){
-  .sl{--slh:calc((100cqi - 24px) * .7)}
+@media (max-width:640px){
+  .sl{--slh:calc((100vw - 24px) * .7)}
   .sl-track{padding:6px 12px 16px;scroll-padding:0 12px;gap:12px}
   .sl-btn{width:40px;height:40px;font-size:16px}
 }
 
 /* ---------- кейс 01: до/после крупнее (телефон и планшет) ---------- */
-@container site (max-width:640px){
+@media (max-width:640px){
   #c-01 .ba-grid{grid-template-columns:1fr;gap:22px}
   #c-01 .ba2{aspect-ratio:3/4}
   #c-01 .ba2 .lbl{font-size:11px;padding:6px 10px;top:12px}#c-01 .ba2 .lbl.l{left:12px}#c-01 .ba2 .lbl.r{right:12px}
@@ -1012,9 +1012,9 @@ html:not(.seen){--d0:.55s}
 .burger{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 
 /* ---------- очень узкие экраны (Galaxy Fold в сложенном виде, iPhone SE 1-го поколения) ---------- */
-@container site (max-width:340px){
+@media (max-width:340px){
   .hero-bottom h1{font-size:28px}
-  .h-xl{font-size:clamp(26px,9cqi,34px)}
+  .h-xl{font-size:clamp(26px,9vw,34px)}
   .foot .cols{grid-template-columns:1fr!important}
   .hero-cards{gap:6px}
   .wrap{--gut:14px}
@@ -1025,11 +1025,28 @@ html:not(.seen){--d0:.55s}
   .blobs .stage{width:min(100%,560px)}
 }
 .pk{grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))!important}
-@container site (max-width:340px){
+@media (max-width:340px){
   .slist a{grid-template-columns:36px minmax(0,1fr) 32px!important;gap:10px}
   .slist a .price{grid-column:2}
   .pitem{grid-template-columns:auto minmax(0,1fr)!important}
   .pitem>:last-child{grid-column:1/-1}
   .pitem h3{font-size:22px;overflow-wrap:anywhere}
   .step{min-width:0}
+}
+
+/* ===== правки v5: телефоны (iPhone, Honor), бургер и переносы ===== */
+/* шапка и бургер всегда видны: плотная подложка поверх любых секций */
+.hdr .logo.glass,.hdr .burger.glass,.lab .hdr .logo.glass,.lab .hdr .burger.glass{background:rgba(247,242,232,.94);border:1px solid rgba(21,20,18,.12);box-shadow:0 8px 24px -12px rgba(21,20,18,.45);color:var(--ink)}
+.hdr .burger i{background:var(--ink)}
+/* заголовки не рвём посреди слова: размер подбирает app.js */
+h1,h2,h3,.h-xxl,.h-xl,.h-l,.h-m,.mmenu a{overflow-wrap:normal!important;word-break:normal!important;hyphens:manual!important;-webkit-hyphens:manual!important}
+.nowrap{white-space:nowrap}
+@media (max-width:640px){
+  .cta h2{font-size:min(48px,10.5vw)}
+}
+/* таблицы: слова целиком, если не помещается — таблица листается вбок */
+@media (max-width:900px){
+  .cmp{table-layout:auto!important}
+  .cmp th,.cmp td{overflow-wrap:normal;word-break:normal;hyphens:manual;-webkit-hyphens:manual}
+  .tbl{overflow-x:auto;-webkit-overflow-scrolling:touch}
 }
