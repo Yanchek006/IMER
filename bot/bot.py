@@ -1,8 +1,8 @@
 """Telegram-бот студии IMER.
 
 Что умеет:
-  • подобрать услугу за 3 вопроса и назвать цену «от»;
-  • показать цены и кейсы (картинки берёт из папки сайта рядом);
+  • подобрать услугу за 3 вопроса (стоимость — индивидуально);
+  • показать услуги и кейсы (картинки берёт из папки сайта рядом);
   • ответить на сомнения: кнопками или по ключевым словам в свободном тексте;
   • принять заявку за 2 минуты — задачу можно наговорить голосовым;
   • передать вопрос человеку; вы отвечаете ответом (reply) на сообщение бота — ответ уходит клиенту;
@@ -262,7 +262,7 @@ async def pick_answer(c: CallbackQuery, state: FSMContext):
     await state.clear()
     what, has, how = ans
     name, price, why = T.PICK_RESULT[what][how]
-    text = (f"<b>Вам подойдёт: {name}</b>\nЦена: {price}\n\n{why}\n{T.PICK_HAS[has]}\n\n"
+    text = (f"<b>Вам подойдёт: {name}</b>\nСтоимость: {price}\n\n{why}\n{T.PICK_HAS[has]}\n\n"
             "Точный объём и срок назовём после короткой заявки.")
     await c.message.answer(text, reply_markup=ikb([[("📝 Оставить заявку на это", f"lead:start:{what}")],
                                                    [("🖼 Посмотреть кейсы", "cases"), ("🤔 Есть сомнение", "doubts")]]))
@@ -275,7 +275,7 @@ async def prices(m: Message, state: FSMContext):
     rows = [[(v[0], f"price:{k}")] for k, v in T.PRICES.items()]
     if KP_FILE.exists():
         rows.append([("📄 Всё в одном PDF (КП)", "kp")])
-    await m.answer("💰 <b>Цены</b>\n\nВыберите направление:", reply_markup=ikb(rows))
+    await m.answer("🗂 <b>Услуги</b>\n\nСостав пакетов по направлениям. Стоимость рассчитываем индивидуально.\n\nВыберите направление:", reply_markup=ikb(rows))
 
 
 @router.callback_query(F.data.startswith("price:"))
@@ -285,7 +285,7 @@ async def price_one(c: CallbackQuery):
     await c.answer()
     await c.message.answer(f"<b>{title}</b>\n\n{body}{T.PRICES_FOOT}",
                            reply_markup=ikb([[("📝 Оставить заявку", f"lead:start:{k}")],
-                                             [("🤔 Дорого?", "doubt:price"), ("💰 Другие цены", "prices")]]))
+                                             [("🤔 Дорого?", "doubt:price"), ("🗂 Другие услуги", "prices")]]))
 
 
 @router.callback_query(F.data == "prices")
@@ -299,7 +299,7 @@ async def kp(c: CallbackQuery):
     await c.answer()
     if KP_FILE.exists():
         await c.message.answer_document(FSInputFile(KP_FILE, filename="IMER — коммерческое предложение.pdf"),
-                                        caption="Коммерческое предложение IMER: услуги, цены, кейсы и процесс.")
+                                        caption="Коммерческое предложение IMER: услуги, кейсы и процесс.")
     else:
         await c.message.answer("Файл КП пока не загружен — пришлём его лично.")
 
@@ -571,7 +571,7 @@ async def learn(m: Message, state: FSMContext):
             [("📚 Подробные планы обучения", "plans")],
             [("🎯 Квест для дизайнеров + гайд в подарок", "quest:0")]]
     if SITE_URL:
-        rows.append([("🌐 Программы и цены на сайте", site("learn.html"))])
+        rows.append([("🌐 Программы на сайте", site("learn.html"))])
     await m.answer(T.LEARN_INTRO, reply_markup=ikb(rows))
 
 
@@ -607,7 +607,7 @@ async def learn_answer(c: CallbackQuery, state: FSMContext):
     what, exp, fmt = ans
     direction, spec, price = T.LEARN_RESULT[what]
     if exp == "pro":
-        price, note = "отдельные модули — от 9 900 ₽", "База у вас есть: возьмите недостающие модули или интенсив — от 24 900 ₽ в месяц."
+        price, note = "отдельные модули", "База у вас есть: возьмите недостающие модули или интенсив. Стоимость рассчитаем на консультации."
     elif exp == "zero":
         note = "Начнём с основ: первые модули каждой специализации — про базу."
     else:

@@ -84,15 +84,15 @@ const sendLead = (lead) => {
       let dir = '', pack = '', price = '';
       if (ready) {
         if (st.a === 'A') {
-          if (st.c === 'X') { dir = 'Лендинг на Tilda'; pack = 'Старт'; price = 'от 25 000 ₽'; }
-          else if (st.c === 'Y') { dir = 'Web-дизайн с разработкой'; pack = 'Старт'; price = 'от 35 000 ₽'; }
-          else { dir = 'Web-дизайн с разработкой'; pack = 'Под ключ'; price = 'корпоративный сайт от 55 000 ₽'; }
+          if (st.c === 'X') { dir = 'Лендинг на Tilda'; pack = 'Старт'; price = 'стоимость — индивидуально'; }
+          else if (st.c === 'Y') { dir = 'Web-дизайн с разработкой'; pack = 'Старт'; price = 'стоимость — индивидуально'; }
+          else { dir = 'Web-дизайн с разработкой'; pack = 'Под ключ'; price = 'стоимость — индивидуально'; }
         } else if (st.a === 'B') {
           dir = 'Инфографика WB / Ozon';
-          if (st.b === '3') { pack = 'Старт'; price = 'обложка 1 000 ₽ + слайд 800 ₽'; }
-          else { pack = 'Под ключ'; price = 'серия по брифу: обложка 1 000 ₽, слайд 800 ₽, rich-контент 1 800 ₽'; }
-        } else if (st.a === 'C') { dir = 'Брендинг'; pack = st.b === '1' ? 'Под ключ' : 'Старт'; price = 'полиграфия от 3 000 ₽, логотип и стиль — по брифу'; }
-        else { dir = 'Презентации'; pack = st.c === 'Z' ? 'Под ключ' : 'Старт'; price = st.c === 'Z' ? '15 000 ₽' : '6 000 ₽'; }
+          if (st.b === '3') { pack = 'Старт'; price = 'стоимость — индивидуально'; }
+          else { pack = 'Под ключ'; price = 'стоимость — индивидуально'; }
+        } else if (st.a === 'C') { dir = 'Брендинг'; pack = st.b === '1' ? 'Под ключ' : 'Старт'; price = 'стоимость — индивидуально'; }
+        else { dir = 'Презентации'; pack = st.c === 'Z' ? 'Под ключ' : 'Старт'; price = st.c === 'Z' ? 'стоимость — индивидуально' : 'стоимость — индивидуально'; }
       }
       setIf('ready', ready); setIf('notReady', !ready); setIf('recAudit', ready && st.b === '2');
       setT('recDir', dir); setT('recPack', pack); setT('recPrice', price);
@@ -102,17 +102,17 @@ const sendLead = (lead) => {
       setIf('ready', ready); setIf('waiting', !ready);
       if (!ready) return;
       const map = {
-        ui: ['Дизайн', 'UI/UX Design', 'Дизайн PRO — 64 900 ₽'],
-        graphic: ['Дизайн', 'Graphic Design', 'Дизайн PRO — 64 900 ₽'],
-        code: ['Разработка', st.b === 'zero' ? 'Frontend' : 'Full Stack', 'Разработка PRO — 74 900 ₽'],
-        product: ['Комплексный', 'Product: digital-продукты', 'Комплексный PRO — 119 900 ₽'],
+        ui: ['Дизайн', 'UI/UX Design', 'Дизайн PRO'],
+        graphic: ['Дизайн', 'Graphic Design', 'Дизайн PRO'],
+        code: ['Разработка', st.b === 'zero' ? 'Frontend' : 'Full Stack', 'Разработка PRO'],
+        product: ['Комплексный', 'Product: digital-продукты', 'Комплексный PRO'],
       };
       const fmtName = { self: 'самостоятельный формат', group: 'групповой формат', mentor: 'индивидуальный формат' };
       const [dir, spec, price] = map[st.a];
       setT('rDir', dir); setT('rSpec', spec); setT('rFormat', fmtName[st.c]);
-      setT('rPrice', st.b === 'pro' ? 'отдельные модули — от 9 900 ₽' : price);
+      setT('rPrice', st.b === 'pro' ? 'отдельные модули' : price);
       setT('rNote', st.b === 'pro'
-        ? 'База у вас есть: возьмите модули, которых не хватает, или интенсив — от 24 900 ₽ за месяц.'
+        ? 'База у вас есть: возьмите модули, которых не хватает, или интенсив.'
         : st.b === 'zero' ? 'Начнём с основ: в каждой специализации первые модули — про базу.' : 'Пропустим то, что вы уже знаете, и сфокусируемся на практике и портфолио.');
     };
     const evaluate = page === 'learn' ? evalLearn : evalServices;
@@ -306,7 +306,8 @@ const sendLead = (lead) => {
   if (!items.length) return;
   document.documentElement.classList.add('io');
   const io = new IntersectionObserver((es) => es.forEach((e) => {
-    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    if (e.isIntersecting) e.target.classList.add('in');
+    else if (e.boundingClientRect.top > 0) e.target.classList.remove('in'); // листаем вверх — блок уходит обратно
   }), { rootMargin: '0px 0px -12% 0px' });
   items.forEach((el) => io.observe(el));
 })();
@@ -324,15 +325,30 @@ const sendLead = (lead) => {
   const im = document.querySelector('.immerse');
   if (im) {
     const pin = im.querySelector('.pin');
+    const svg = pin.querySelector('svg');
+    let flood = pin.querySelector('.flood');
+    if (!flood) { flood = document.createElement('div'); flood.className = 'flood'; flood.setAttribute('aria-hidden', 'true'); pin.insertBefore(flood, pin.querySelector('.inside')); }
     const draw = (p) => {
-      pin.style.setProperty('--s', Math.pow(26, clamp(p / 0.72)).toFixed(3));
+      // арка увеличивается умеренно (без огромного масштаба, который дёргается на телефонах),
+      // а внутрь «заливает» красным слоем
+      const s = Math.pow(9, ease(clamp(p / 0.7)));
+      svg.style.transform = 'translate3d(0,0,0) scale(' + s.toFixed(4) + ')';
+      flood.style.opacity = clamp((p - 0.42) / 0.2).toFixed(3);
       pin.style.setProperty('--o', clamp((p - 0.55) / 0.23).toFixed(3));
     };
     if (reduce) draw(1);
-    else scenes.push({ el: im, tick() {
-      const r = im.getBoundingClientRect(), vh = innerHeight;
-      draw(pinned(pin) ? clamp(-r.top / Math.max(1, r.height - pin.offsetHeight)) : clamp((vh - r.top) / (vh + r.height * 0.4)));
-    } });
+    else {
+      let cur = -1, busy = false;
+      scenes.push({ el: im, get live() { return busy; }, tick() {
+        const r = im.getBoundingClientRect(), vh = innerHeight;
+        const target = pinned(pin) ? clamp(-r.top / Math.max(1, r.height - pin.offsetHeight)) : clamp((vh - r.top) / (vh + r.height * 0.4));
+        if (cur < 0) cur = target;
+        cur += (target - cur) * 0.16;            // мягкое сглаживание: без рывков при прокрутке пальцем
+        if (Math.abs(target - cur) < 0.0006) cur = target;
+        busy = cur !== target;
+        draw(cur);
+      } });
+    }
   }
 
   /* три круга сливаются в один */
@@ -495,4 +511,43 @@ const sendLead = (lead) => {
   all();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(all);
   window.addEventListener('load', all);
+})();
+
+/* Плавное раскрытие и закрытие частых вопросов и программ (во всех браузерах). */
+(() => {
+  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const EASE = 'cubic-bezier(.2,.8,.2,1)';
+  document.querySelectorAll('.faq details, .prog details').forEach((d) => {
+    const s = d.querySelector('summary');
+    if (!s || !d.animate) return;
+    let anim = null;
+    const finish = (open) => {
+      d.open = open;
+      d.style.height = '';
+      d.classList.remove('is-opening', 'is-closing');
+      anim = null;
+    };
+    s.addEventListener('click', (e) => {
+      if (reduce) return;
+      e.preventDefault();
+      const from = d.offsetHeight;
+      if (anim) anim.cancel();
+      const opening = !d.open || d.classList.contains('is-closing');
+      d.classList.remove('is-opening', 'is-closing');
+      let to;
+      if (opening) {
+        d.open = true;
+        to = d.offsetHeight;
+        d.classList.add('is-opening');
+        requestAnimationFrame(() => requestAnimationFrame(() => d.classList.remove('is-opening')));
+      } else {
+        d.open = false; to = d.offsetHeight; d.open = true;
+        d.classList.add('is-closing');
+      }
+      const dur = Math.min(520, Math.max(280, Math.abs(to - from) * 1.4));
+      anim = d.animate({ height: [from + 'px', to + 'px'] }, { duration: dur, easing: EASE });
+      anim.onfinish = () => finish(opening);
+      anim.oncancel = () => { anim = null; };
+    });
+  });
 })();
