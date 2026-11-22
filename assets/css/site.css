@@ -872,11 +872,7 @@ html:not(.seen){--d0:.55s}
 @starting-style{.lb[open]::backdrop{opacity:0}}
 
 /* ---- FAQ раскрывается плавно, а не рывком ---- */
-@supports (interpolate-size:allow-keywords){
-  .faq{interpolate-size:allow-keywords}
-  .faq details::details-content{block-size:0;opacity:0;overflow:clip;transition:block-size .32s var(--ease-out),opacity .24s ease,content-visibility .32s allow-discrete}
-  .faq details[open]::details-content{block-size:auto;opacity:1}
-}
+/* анимация раскрытия — в app.js (работает во всех браузерах, включая Safari) */
 .faq summary::after{transition:transform .25s var(--ease-out),color .2s ease}
 
 /* ---- результаты квизов, фильтр кейсов: появляются, а не «телепортируются» ---- */
@@ -1049,4 +1045,92 @@ h1,h2,h3,.h-xxl,.h-xl,.h-l,.h-m,.mmenu a{overflow-wrap:normal!important;word-bre
   .cmp{table-layout:auto!important}
   .cmp th,.cmp td{overflow-wrap:normal;word-break:normal;hyphens:manual;-webkit-hyphens:manual}
   .tbl{overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+.faq details,.prog details{overflow:hidden}
+.faq details .a,.prog details>*:not(summary){transition:opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1)}
+.faq details.is-closing>*:not(summary),.prog details.is-closing>*:not(summary){opacity:0;transform:translateY(-6px)}
+.faq details.is-opening>*:not(summary),.prog details.is-opening>*:not(summary){opacity:0;transform:translateY(-6px)}
+/* погружение: плавнее на телефонах */
+.immerse .pin{height:100vh;height:100svh;max-height:900px;contain:paint}
+.immerse svg{will-change:transform;backface-visibility:hidden;transform:translate3d(0,0,0)}
+.immerse .flood{position:absolute;inset:0;background:var(--red);opacity:0;pointer-events:none;will-change:opacity}
+.immerse .inside{will-change:opacity,transform;z-index:1}
+
+/* ===== футер v2: понятные контакты с иконками ===== */
+.foot{padding:72px 0 28px}
+.foot .f-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:48px;align-items:start}
+.foot .f-brand{display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+.foot .f-logo{width:180px;height:auto}
+.foot .f-brand>p:not(.mono){max-width:32ch;font-size:17px}
+.foot .f-hours{font-size:12px;line-height:1.6;color:#55514a;display:block}
+.foot .f-live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 0 rgba(217,67,42,.5);animation:fLive 2.4s ease-out infinite}
+@keyframes fLive{0%{box-shadow:0 0 0 0 rgba(217,67,42,.45)}70%,100%{box-shadow:0 0 0 9px rgba(217,67,42,0)}}
+.foot h4{font:500 12px var(--f-mono);text-transform:uppercase;letter-spacing:.04em;color:#6d675e;margin-bottom:14px}
+.foot .f-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.foot .f-c{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid rgba(21,20,18,.16);border-radius:18px;background:rgba(255,255,255,.35);color:var(--ink);text-decoration:none;min-width:0;transition:background .3s ease,border-color .3s ease,transform .3s cubic-bezier(.2,.8,.2,1)}
+.foot .f-c:hover,.foot .f-c:focus-visible{background:#fff;border-color:var(--ink);transform:translateY(-2px)}
+.foot .f-c-main{grid-column:1/-1;background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.foot .f-c-main:hover,.foot .f-c-main:focus-visible{background:#262420}
+.foot .f-ic{flex:none;width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center;transition:background .3s ease}
+.foot .f-c:hover .f-ic{background:var(--red)}
+.foot .f-c-main .f-ic{background:var(--red)}
+.foot .f-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.foot .f-ic .f-fill{fill:currentColor;stroke:none}
+.foot .f-ic-txt{font:600 15px/1 var(--f-display);letter-spacing:.02em;text-transform:uppercase}
+.foot .f-t{display:flex;flex-direction:column;gap:3px;min-width:0}
+.foot .f-t small{font:500 11px var(--f-mono);text-transform:uppercase;letter-spacing:.04em;opacity:.6}
+.foot .f-t b{font:500 16px/1.25 var(--f-display);overflow-wrap:anywhere}
+.foot .f-t i{font-style:normal;font-size:13px;opacity:.65}
+.foot .f-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:56px;padding-top:28px;border-top:1px solid rgba(21,20,18,.16)}
+.foot .f-nav ul{list-style:none;display:flex;flex-direction:column;gap:8px;font-size:15px}
+.foot .base{margin-top:40px;display:flex;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;font-size:12px}
+.foot .f-note{flex:1 1 300px;text-align:center;opacity:.8}
+@media (max-width:1000px){.foot .f-top{grid-template-columns:1fr;gap:40px}}
+@media (max-width:640px){
+  .foot{padding:56px 0 24px}
+  .foot .f-grid{grid-template-columns:1fr}
+  .foot .f-nav{grid-template-columns:1fr 1fr;gap:28px 16px;margin-top:40px}
+  .foot .f-nav>div:last-child{grid-column:1/-1}
+  .foot .base{flex-direction:column;gap:8px}
+  .foot .f-note{text-align:left;flex:none}
+  .foot .f-t b{font-size:15px}
+}
+
+/* ===== семь шагов (о студии): цифры — главный акцент ===== */
+.p7{list-style:none;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:0;counter-reset:none;position:relative}
+.p7-step{position:relative;padding:0 18px 0 0;display:flex;flex-direction:column;gap:14px;min-width:0}
+.p7-step::before{content:"";position:absolute;left:0;right:0;top:calc(clamp(44px,4.6vw,76px) + 14px);height:1px;background:rgba(21,20,18,.25)}
+.p7-step::after{content:"";position:absolute;left:0;top:calc(clamp(44px,4.6vw,76px) + 10px);width:9px;height:9px;border-radius:50%;background:var(--red)}
+.p7-n{font:500 clamp(44px,4.6vw,76px)/1 var(--f-display);color:var(--red);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.p7-b{padding-top:22px;display:flex;flex-direction:column;gap:8px}
+.p7-b h3{font-size:clamp(16px,1.35vw,20px);line-height:1.2}
+.p7-b p{font-size:14px;line-height:1.45;color:#55514a}
+@media (max-width:1000px){
+  .p7{grid-template-columns:1fr;gap:0}
+  .p7-step{display:grid;grid-template-columns:76px minmax(0,1fr);gap:16px;padding:0 0 28px}
+  .p7-step::before{left:37px;right:auto;top:64px;bottom:4px;width:2px;height:auto;background:rgba(217,67,42,.25)}
+  .p7-step:last-child::before{display:none}
+  .p7-step::after{display:none}
+  .p7-n{font-size:56px;text-align:left;width:76px;line-height:1}
+  .p7-b{padding-top:6px}
+  .p7-b h3{font-size:22px}
+  .p7-b p{font-size:15px}
+}
+@media (max-width:380px){
+  .p7-step{grid-template-columns:62px minmax(0,1fr);gap:12px}
+  .p7-n{font-size:46px;width:62px}
+  .p7-step::before{left:30px;top:54px}
+}
+.tariff .price-ind b{font-size:clamp(20px,1.8vw,26px);white-space:normal;line-height:1.15}
+/* семь шагов: цифры в одну строку */
+.p7-n{white-space:nowrap}
+@media (max-width:1000px){
+  .p7-step{grid-template-columns:88px minmax(0,1fr);gap:14px}
+  .p7-n{font-size:48px;width:88px;letter-spacing:-.04em}
+  .p7-step::before{left:22px;top:58px}
+}
+@media (max-width:380px){
+  .p7-step{grid-template-columns:72px minmax(0,1fr);gap:10px}
+  .p7-n{font-size:40px;width:72px}
+  .p7-step::before{left:18px;top:50px}
 }
