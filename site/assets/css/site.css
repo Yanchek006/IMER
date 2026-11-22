@@ -1134,3 +1134,7 @@ h1,h2,h3,.h-xxl,.h-xl,.h-l,.h-m,.mmenu a{overflow-wrap:normal!important;word-bre
   .p7-n{font-size:40px;width:72px}
   .p7-step::before{left:18px;top:50px}
 }
+/* тарифы: цена, под ней бледная зачёркнутая старая */
+.tariff .price{flex-direction:column;align-items:flex-start;gap:6px}
+.tariff .price .mono{width:auto}
+.tariff .price s.price-old{order:3;font:500 15px var(--f-mono);color:currentColor;opacity:.38;text-decoration:line-through;text-decoration-thickness:1px}
